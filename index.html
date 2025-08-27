@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tulip Scene</title>
+<style>
+ body {
+    margin: 0;
+    padding: 0;
+    background: white;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  h1 {
+    position: absolute;
+    top: 8%;
+    text-align: center;
+    font-size: 6vw;   /* responsive font */
+    color: #e75480;
+    padding: 0 5%;
+  }
+
+  /* Grass */
+  .grass {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 15vh; /* responsive */
+    background: #228B22;
+    overflow: hidden;
+    z-index: 1;
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+  }
+  .blade {
+    width: 0.5vw;
+    height: 12vh;
+    background: linear-gradient(to top, #228B22, #32CD32);
+    border-radius: 2px;
+    transform-origin: bottom center;
+    animation: sway 3s ease-in-out infinite alternate;
+  }
+  @keyframes sway {
+    0%   { transform: rotate(-6deg); }
+    50%  { transform: rotate(6deg); }
+    100% { transform: rotate(-6deg); }
+  }
+  .blade:nth-child(odd) { animation-duration: 2.5s; }
+  .blade:nth-child(3n) { animation-duration: 3.8s; }
+
+  /* Stem */
+  .stem {
+    position: absolute;
+    bottom: 15vh;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1vw;
+    height: 0;
+    background: #228B22;
+    animation: growStem 3s ease-out forwards;
+    z-index: 2;
+  }
+  @keyframes growStem { to { height: 25vh; } }
+
+  /* Tulip */
+  .flower {
+    position: absolute;
+    bottom: 40vh;
+    left: 50%;
+    transform: translateX(-50%) scale(0);
+    width: 12vw;
+    height: 15vh;
+    z-index: 3;
+    animation: bloom 2s 3s forwards;
+  }
+  .petal {
+    position: absolute;
+    width: 6vw;
+    height: 12vh;
+    background: pink;
+    border-radius: 50% 50% 40% 40%;
+  }
+  .petal.left { left: 0; transform: rotate(-15deg); background: #ff91af; }
+  .petal.right { right: 0; transform: rotate(15deg); background: #ff91af; }
+  .petal.center { left: 50%; transform: translateX(-50%); background: #ff6fa1; }
+  @keyframes bloom { to { transform: translateX(-50%) scale(1); } }
+
+  /* Butterflies */
+  .butterfly {
+    position: absolute;
+    width: 4vw;
+    height: 4vw;
+    background: radial-gradient(circle, #ffb6c1 60%, #ff69b4 100%);
+    border-radius: 50%;
+    opacity: 0.9;
+    animation: fly 10s linear infinite;
+    z-index: 4;
+  }
+  .butterfly::before, .butterfly::after {
+    content: "";
+    position: absolute;
+    width: 3vw;
+    height: 3vw;
+    background: radial-gradient(circle, #ffb6c1 60%, #ff69b4 100%);
+    border-radius: 50%;
+  }
+  .butterfly::before { left: -2vw; top: 0; }
+  .butterfly::after { right: -2vw; top: 0; }
+
+  @keyframes fly {
+    0% { transform: translateX(0) translateY(0); }
+    25% { transform: translateX(20vw) translateY(-10vh); }
+    50% { transform: translateX(40vw) translateY(0); }
+    75% { transform: translateX(20vw) translateY(10vh); }
+    100% { transform: translateX(0) translateY(0); }
+  }
+
+  /* Clouds */
+  .cloud {
+    position: absolute;
+    background: #8cece8;
+    border-radius: 50%;
+    opacity: 0.9;
+    animation: floatClouds 60s linear infinite;
+  }
+  .cloud::before,
+  .cloud::after {
+    content: "";
+    position: absolute;
+    background: #98fdfe;
+    border-radius: 50%;
+  }
+
+  .cloud1 {
+    width: 15vw; height: 8vh;
+    top: 10%; left: -20vw;
+    animation: floatClouds 25s linear infinite; /* was 70s */
+  }
+  .cloud1::before { width: 7vw; height: 7vh; top: -3vh; left: 2vw; }
+  .cloud1::after { width: 10vw; height: 10vh; top: -4vh; left: 6vw; }
+
+  .cloud2 {
+    width: 18vw; height: 9vh;
+    top: 18%; left: -25vw;
+    animation: floatClouds 35s linear infinite; /* was 70s */
+  }
+  .cloud2::before { width: 8vw; height: 8vh; top: -3vh; left: 3vw; }
+  .cloud2::after { width: 9vw; height: 9vh; top: -2vh; left: 8vw; }
+
+  .cloud3 {
+    width: 12vw; height: 7vh;
+    top: 5%; left: -15vw;
+    animation-duration: 50s;
+  }
+  .cloud3::before { width: 5vw; height: 5vh; top: -2vh; left: 1vw; }
+  .cloud3::after { width: 7vw; height: 7vh; top: -3vh; left: 4vw; }
+
+  @keyframes floatClouds {
+    from { transform: translateX(0); }
+    to { transform: translateX(120vw); }
+  }
+
+  /* Mobile tweaks */
+  @media (max-width: 600px) {
+    h1 { font-size: 8vw; top: 5%; }
+    .flower { width: 20vw; height: 20vh; bottom: 35vh; }
+    .stem { width: 2vw; }
+    .butterfly { width: 6vw; height: 6vw; }
+    .butterfly::before, .butterfly::after { width: 4vw; height: 4vw; }
+  }
+</style>
+</head>
+<body>
+
+<h1>I love my friend arbaz very much</h1>
+
+<!-- Grass -->
+<div class="grass">
+  <!-- Generate multiple blades -->
+  <div class="blade"></div><div class="blade"></div><div class="blade"></div>
+  <div class="blade"></div><div class="blade"></div><div class="blade"></div>
+  <div class="blade"></div><div class="blade"></div><div class="blade"></div>
+  <div class="blade"></div><div class="blade"></div><div class="blade"></div>
+  <div class="blade"></div><div class="blade"></div><div class="blade"></div>
+  <div class="blade"></div><div class="blade"></div><div class="blade"></div>
+  <div class="blade"></div><div class="blade"></div><div class="blade"></div>
+</div>
+
+<div class="stem"></div>
+
+<div class="flower">
+  <div class="petal left"></div>
+  <div class="petal right"></div>
+  <div class="petal center"></div>
+</div>
+
+<!-- Butterflies -->
+<div class="butterfly" style="top:30%; left:10%; animation-delay:2s;"></div>
+<div class="butterfly" style="top:50%; left:30%; animation-delay:1s;"></div>
+<div class="butterfly" style="top:40%; left:40%; animation-delay:0s;"></div>
+<div class="butterfly" style="top:10%; left:20%; animation-delay:0.5s;"></div>
+<div class="butterfly" style="top:10%; left:70%; animation-delay:3s;"></div>
+<div class="butterfly" style="top:60%; left:60%; animation-delay:0s;"></div>
+
+<!-- Clouds -->
+<div class="cloud cloud1"></div>
+<div class="cloud cloud2"></div>
+<div class="cloud cloud3"></div>
+
+<audio id="bg-music" autoplay loop>
+  <source src="song.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const music = document.getElementById("bg-music");
+  music.play().catch(() => {
+    document.body.addEventListener("click", () => {
+      music.play();
+    }, { once: true });
+  });
+</script>
+
+
+
+</body>
+</html>
